@@ -1,14 +1,8 @@
 import services from '@/services';
-import user from './user';
-import shop from './shop';
 
-const modelsFile = require.context('@/api', true, /.ts$/);
+const moduleFiles = require.context('@/api', true, /.ts$/);
 
-const models = modelsFile.keys().map((v) => {
-  console.log('v:', v);
-  return modelsFile(v);
-});
-console.log(models);
+let moduleKeys = moduleFiles.keys().filter((v) => v !== './index.ts');
 
 const api: any = {};
 
@@ -31,9 +25,12 @@ function register(name: string, module: any) {
   Object.freeze(api[name]);
 }
 
-// 注册 或者使用require.context 自动导入注册
-register('user', user);
-register('shop', shop);
+// 自动注册
+moduleKeys.forEach((v) => {
+  console.log(moduleFiles(v).default);
+  let keys = v.split('.')[1].slice(1);
+  if (keys) register(`${keys}`, moduleFiles(v).default);
+});
 
 Object.freeze(api);
 
