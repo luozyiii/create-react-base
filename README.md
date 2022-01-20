@@ -179,3 +179,16 @@ module.exports = function override(config, env) {
     "format": "npx prettier --write ."
   },
 ```
+
+## react-router-dom
+
+[参考文档](https://github.com/remix-run/react-router/blob/main/docs/getting-started/tutorial.md)
+
+- 依赖安装
+
+```bash
+# react-router-dom
+npm install react-router-dom
+# types
+npm i -D @types/react-router-dom
+```
