@@ -1,4 +1,4 @@
-import services from '../services';
+import services from '@/services';
 import user from './user';
 import shop from './shop';
 
