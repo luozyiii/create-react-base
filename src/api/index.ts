@@ -2,6 +2,14 @@ import services from '@/services';
 import user from './user';
 import shop from './shop';
 
+const modelsFile = require.context('@/api', true, /.ts$/);
+
+const models = modelsFile.keys().map((v) => {
+  console.log('v:', v);
+  return modelsFile(v);
+});
+console.log(models);
+
 const api: any = {};
 
 // 注册模块方法

@@ -29,6 +29,10 @@ api.user.loginIn(params).then(() => {});
 
 - 优化: 使用 require.context 批量导入接口
 
+```bash
+npm i @types/webpack-env @types/node -D
+```
+
 ### http-proxy-middleware 代理：解决本地开发跨域问题
 
 [文档 link](https://create-react-app.dev/docs/proxying-api-requests-in-development/)
