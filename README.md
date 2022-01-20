@@ -6,6 +6,92 @@
 
 参考 [prettierrc-best](https://github.com/luozyiii/prettierrc-best)
 
+## 使用 craco （一个对 create-react-app 进行自定义配置的社区解决方案）
+
+- 1.依赖安装
+
+```bash
+npm install @craco/craco
+```
+
+- 2.根目录新增 craco.config.js
+
+```js
+module.exports = {
+  // ...
+};
+```
+
+- 3.修改 package.json 配置
+
+```js
+"scripts": {
+  "start": "craco start",
+  "build": "craco build",
+  "test": "craco test",
+  "eject": "craco eject",
+  "format": "npx prettier --write ."
+}
+```
+
+### 路径别名
+
+- 1.修改 craco.config.js
+
+```js
+const path = require('path');
+const resolve = (dir) => path.resolve(__dirname, dir);
+
+module.exports = {
+  webpack: {
+    alias: {
+      '@': resolve('src')
+    }
+  }
+};
+```
+
+- 修改 tsconfig.json
+
+```js
+"compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+```
+
+### 配置 less
+
+- 1.安装 craco-less
+
+```bash
+npm install craco-less
+```
+
+- 2.并修改 craco.config.js
+
+```js
+const CracoLessPlugin = require('craco-less');
+
+module.exports = {
+  plugins: [
+    {
+      plugin: CracoLessPlugin,
+      options: {
+        lessLoaderOptions: {
+          lessOptions: {
+            modifyVars: { '@primary-color': '#1DA57A' },
+            javascriptEnabled: true
+          }
+        }
+      }
+    }
+  ]
+};
+```
+
 ## 抽离 API 层，二次封装 axios
 
 - 第一步：确定想要的效果
@@ -125,59 +211,6 @@ export default api;
 
 ```
 注意：直接看英文文档，中文文档有点跟不上
-```
-
-### 路径别名 react-app-rewired
-
-- 安装依赖库
-
-```bash
-npm install react-app-rewired --save-dev
-
-```
-
-- 在项目的根目录创建 config-overrides.js 文件
-
-```js
-const path = require('path');
-
-function resolve(dir) {
-  return path.join(__dirname, '.', dir);
-}
-
-/* config-overrides.js */
-module.exports = function override(config, env) {
-  //do stuff with the webpack config...
-  // alias
-  config.resolve.alias = {
-    ...config.resolve.alias,
-    '@': resolve('src')
-  };
-  return config;
-};
-```
-
-- 修改 tsconfig.json
-
-```js
-"compilerOptions": {
-    "baseUrl": "./",
-    "paths": {
-      "@/*": ["src/*"]
-    }
-  },
-```
-
-- 修改启动脚本 package.json
-
-```js
-"scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
-    "eject": "react-app-rewired eject",
-    "format": "npx prettier --write ."
-  },
 ```
 
 ## react-router-dom

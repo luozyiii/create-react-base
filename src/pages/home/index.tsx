@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import api from '@/api';
-import './index.css';
+import './index.less';
 
 import Child from '@/components/Child';
 
