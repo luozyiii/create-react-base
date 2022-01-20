@@ -2,35 +2,31 @@ import services from '@/services';
 import user from './user';
 import shop from './shop';
 
-function apiFun() {
-  const api: any = {};
+const api: any = {};
 
-  function register(name: string, module: any) {
-    api[name] = {};
-    for (const key in module) {
-      let options = module[key];
-      let method = options.method;
-      api[name][key] = (params: any) => {
-        if (method === 'get') {
-          options.params = params;
-        } else {
-          options.data = params;
-        }
-        return services.request({ ...options });
-      };
-    }
+// 注册模块方法
+function register(name: string, module: any) {
+  api[name] = {};
+  for (const key in module) {
+    let options = module[key];
+    let method = options.method;
+    api[name][key] = (params: any) => {
+      if (method === 'get') {
+        options.params = params;
+      } else {
+        options.data = params;
+      }
+      return services.request({ ...options });
+    };
   }
-
-  return {
-    getApi: function () {
-      return api;
-    },
-    register
-  };
+  // 冻结对象，不允许修改
+  Object.freeze(api[name]);
 }
 
-const wapi = apiFun();
-wapi.register('user', user);
-wapi.register('shop', shop);
+// 注册 或者使用require.context 自动导入注册
+register('user', user);
+register('shop', shop);
 
-export default wapi.getApi();
+Object.freeze(api);
+
+export default api;

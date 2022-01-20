@@ -7,7 +7,9 @@ import Child from '@/components/Child';
 
 function App() {
   const login = () => {
-    // api.user.loginIn = null;
+    // 不允许修改
+    // api.user = null;
+    // api.user.loginIn = null
     api.user
       .loginIn({ phone: '18825040603', pwd: '123' })
       .then(() => {})
