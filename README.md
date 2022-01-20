@@ -1,6 +1,6 @@
-# react-base
+# create-react-base
 
-基础项目
+基于create-react-app的基础项目框架
 
 ## 规范化代码风格
 
