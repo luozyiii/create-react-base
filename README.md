@@ -213,9 +213,11 @@ export default api;
 注意：直接看英文文档，中文文档有点跟不上
 ```
 
-## react-router-dom
+## react-router-dom v6
 
-[参考文档](https://github.com/remix-run/react-router/blob/main/docs/getting-started/tutorial.md)
+- react-loadable 按需加载(研究)
+
+[参考文档](https://reactrouter.com/docs/en/v6/getting-started/overview)
 
 - 依赖安装
 
@@ -224,4 +226,34 @@ export default api;
 npm install react-router-dom
 # types
 npm i -D @types/react-router-dom
+```
+
+### 约定式路由（去中心化）
+
+- 1.最简单的情况
+
+```js
+// 以下目录结构
+└── pages
+    ├── index.tsx
+    ├── login
+    |      └── index.tsx
+    └── 404.tsx
+
+// 会得到以下配置的路由
+[
+  {path: '/', element: '@/pages/index'},
+  {path: '/login', element: '@/pages/login/index'},
+  {path: '/404', element: '@/pages/404'},
+]
+```
+
+- 2.动态路由
+
+```js
+约定 `[]` 包裹的文件或文件夹为动态路由。
+src/pages/invoice/[id].tsx 会成为 /invoice/:id
+
+// 以后再考虑
+src/pages/invoice/[id]/settings.tsx 会成为 /invoice/:id/settings
 ```

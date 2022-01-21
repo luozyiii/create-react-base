@@ -1,54 +1,50 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import Home from '@/pages/home';
-import About from '@/pages/about';
-import Message from '@/pages/message';
-
-let routerList = [
-  {
-    path: '/',
-    component: <Home />
-  },
-  {
-    path: '/about',
-    component: <About />,
-    routes: [
-      {
-        path: '/home',
-        component: <Home />
-      }
-    ]
-  },
-  {
-    path: '/message',
-    component: <Message />
-  },
-  {
-    path: '/message/abc',
-    component: <Home />
-  }
-];
-
-// https://reactrouter.com/docs/en/v6/getting-started/overview
-
 function MyRouter() {
-  const renderRoutes = (list: any) => {
-    return (
+  // 约定式路由： 核心API require.context
+  const routerFiles: any = {};
+
+  function importAll(r: any) {
+    r.keys().forEach((key: any) => (routerFiles[key] = r(key)));
+  }
+
+  importAll(require.context('@/pages', true, /\.tsx$/));
+  let routesPaths = Object.keys(routerFiles);
+  console.log('routesPaths:', routesPaths);
+
+  /**
+   * 文件路径转换成路由路径; 如下:
+   *    "./index.tsx"       => "/"
+   *    "./home/index.tsx" => "/home"
+   */
+  const handlePath = (path: string) => {
+    let lastPath = path.split('.')[1];
+    let start = lastPath.indexOf('[');
+    let end = lastPath.indexOf(']');
+    if (lastPath === '/index') {
+      lastPath = '/';
+    } else if (lastPath.substring(lastPath.length - 6) === '/index') {
+      lastPath = lastPath.substring(0, lastPath.length - 6);
+    } else if (start && end && start < end) {
+      lastPath = lastPath.replace('[', ':');
+      lastPath = lastPath.replace(']', '');
+    }
+    return lastPath;
+  };
+
+  return (
+    <BrowserRouter>
       <Routes>
-        {list &&
-          list.map((item: any, key: number) => {
-            const { path, component, routes } = item;
-            return (
-              <Route key={key} path={path} element={component}>
-                {routes && renderRoutes(routes)}
-              </Route>
-            );
+        {routesPaths.length &&
+          routesPaths.map((p, key) => {
+            let path = handlePath(p);
+            let Element = routerFiles[p].default;
+            return <Route key={key} path={path} element={<Element />} />;
           })}
       </Routes>
-    );
-  };
-  return <BrowserRouter>{renderRoutes(routerList)}</BrowserRouter>;
+    </BrowserRouter>
+  );
 }
 
 export default MyRouter;
