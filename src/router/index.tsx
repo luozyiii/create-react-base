@@ -1,6 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
+import { exclude } from './config';
+
 function MyRouter() {
   // 约定式路由： 核心API require.context
   const routerFiles: any = {};
@@ -10,7 +12,16 @@ function MyRouter() {
   }
 
   importAll(require.context('@/pages', true, /\.tsx$/));
-  let routesPaths = Object.keys(routerFiles);
+  let routesPaths = Object.keys(routerFiles).filter((path: string) => {
+    let bl = true;
+    exclude &&
+      exclude.forEach((name) => {
+        if (path.includes(name)) {
+          bl = false;
+        }
+      });
+    return bl;
+  });
   console.log('routesPaths:', routesPaths);
 
   /**

@@ -4,6 +4,7 @@ import api from '@/api';
 import './index.less';
 
 import Child from '@/components/Child';
+import C from './components/c';
 
 function Home() {
   const login = () => {
@@ -39,8 +40,9 @@ function Home() {
         <Child />
         <div className="page-link">
           <Link to="/about">about page</Link>
-          <br />
-          <Link to="/message">message page</Link>
+        </div>
+        <div>
+          <C />
         </div>
       </header>
     </div>
