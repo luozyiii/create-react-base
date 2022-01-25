@@ -49,6 +49,8 @@
     "@types/node": "^16.11.21",
     "@types/react-router-dom": "^5.3.3",
     "@types/webpack-env": "^1.16.3",
-    "prettier": "2.5.1"
+    "prettier": "2.5.1",
+    "simple-progress-webpack-plugin": "^2.0.0",
+    "webpack-bundle-analyzer": "^4.5.0"
   }
 }

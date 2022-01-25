@@ -257,3 +257,31 @@ src/pages/invoice/[id].tsx 会成为 /invoice/:id
 // 以后再考虑
 src/pages/invoice/[id]/settings.tsx 会成为 /invoice/:id/settings
 ```
+
+### 观察打包进度
+
+```bash
+npm install simple-progress-webpack-plugin -D
+```
+
+```js
+// craco.config.js
+webpack: {
+  plugins: [
+    // 查看打包的进度
+    new SimpleProgressWebpackPlugin()
+  ];
+}
+```
+
+### 打包体积分析 - webpack-bundle-analyzer
+
+[npm](https://www.npmjs.com/package/webpack-bundle-analyzer)
+
+```js
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
+module.exports = {
+  plugins: [new BundleAnalyzerPlugin()]
+};
+```
