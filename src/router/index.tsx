@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
 import { exclude } from './config';
+import NotFount from '@/pages/404';
 
 function MyRouter() {
   // 约定式路由： 核心API require.context
@@ -44,6 +44,8 @@ function MyRouter() {
     return lastPath;
   };
 
+  // const SyncComponent = React.lazy(() => import(/* webpackChunkName: "sync" */ '@/pages/sync/index'));
+
   return (
     <BrowserRouter>
       <Routes>
@@ -51,8 +53,18 @@ function MyRouter() {
           routesPaths.map((p, key) => {
             let path = handlePath(p);
             let Element = routerFiles[p].default;
+
             return <Route key={key} path={path} element={<Element />} />;
           })}
+        {/* <Route
+          path="/sync"
+          element={
+            <React.Suspense fallback={<p>Loading...</p>}>
+              <SyncComponent />
+            </React.Suspense>
+          }
+        ></Route> */}
+        <Route path="*" element={<NotFount />} />
       </Routes>
     </BrowserRouter>
   );

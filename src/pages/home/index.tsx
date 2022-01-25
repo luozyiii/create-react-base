@@ -39,7 +39,12 @@ function Home() {
         </p>
         <Child />
         <div className="page-link">
-          <Link to="/about">about page</Link>
+          <p>
+            <Link to="/about">about page</Link>
+          </p>
+          <p>
+            <Link to="/sync">sync page</Link>
+          </p>
         </div>
         <div>
           <C />
