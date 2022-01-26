@@ -13,21 +13,7 @@ module.exports = {
       // 查看打包的进度
       new SimpleProgressWebpackPlugin(),
       new BundleAnalyzerPlugin()
-    ],
-    configure: {
-      optimization: {
-        splitChunks: {
-          chunks: 'all',
-          cacheGroups: {
-            commons: {
-              test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
-              name: 'vendors',
-              chunks: 'all'
-            }
-          }
-        }
-      }
-    }
+    ]
   },
   plugins: [
     {

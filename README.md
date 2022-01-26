@@ -285,3 +285,7 @@ module.exports = {
   plugins: [new BundleAnalyzerPlugin()]
 };
 ```
+
+## 遗留问题
+
+- react-router-dom v6 懒加载 和分包问题待解决
