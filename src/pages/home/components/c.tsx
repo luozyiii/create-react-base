@@ -1,5 +1,5 @@
 function C() {
-  return <>this is 组件</>;
+  return <>这是 home的子组件</>;
 }
 
 export default C;

@@ -3,18 +3,21 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { exclude } from './config';
 import NotFount from '@/pages/404';
 
-const SyncComponent = React.lazy(() => import(/* webpackPreload: "sync" */ '@/pages/sync/index'));
-const Sync2Component = React.lazy(() => import(/* webpackChunkName: "sync2" */ '@/pages/sync/2'));
+const About = React.lazy(() => import(/* webpackChunkName: "about" */ '@/pages/about'));
 
+/**
+ * 路由：约定式路由 + 懒加载路由
+ * 约定式路由：核心API require.context， 自动识别 src/pages 目录下 .n.tsx 结尾的文件，生成对应的路由规则
+ * 例如： "./index.n.tsx" => "/" ； "./home/index.n.tsx"  => "/home"
+ */
 function MyRouter() {
-  // 约定式路由： 核心API require.context
   const routerFiles: any = {};
 
   function importAll(r: any) {
     r.keys().forEach((key: any) => (routerFiles[key] = r(key)));
   }
 
-  importAll(require.context('@/pages', true, /\.tsx$/));
+  importAll(require.context('@/pages', true, /\.n\.tsx$/));
   let routesPaths = Object.keys(routerFiles).filter((path: string) => {
     let bl = true;
     exclude &&
@@ -25,12 +28,12 @@ function MyRouter() {
       });
     return bl;
   });
-  console.log('routesPaths:', routesPaths);
+  // console.log('routesPaths:', routesPaths);
 
   /**
    * 文件路径转换成路由路径; 如下:
-   *    "./index.tsx"       => "/"
-   *    "./home/index.tsx" => "/home"
+   *    "./index.n.tsx"       => "/"
+   *    "./home/index.n.tsx"  => "/home"
    */
   const handlePath = (path: string) => {
     let lastPath = path.split('.')[1];
@@ -49,31 +52,21 @@ function MyRouter() {
 
   return (
     <BrowserRouter>
-      <Routes>
-        {routesPaths.length &&
-          routesPaths.map((p, key) => {
-            let path = handlePath(p);
-            let Element = routerFiles[p].default;
-            return <Route key={key} path={path} element={<Element />} />;
-          })}
-        <Route
-          path="/sync"
-          element={
-            <React.Suspense fallback={<p>Loading...</p>}>
-              <SyncComponent />
-            </React.Suspense>
-          }
-        ></Route>
-        <Route
-          path="/sync2"
-          element={
-            <React.Suspense fallback={<p>Loading...</p>}>
-              <Sync2Component />
-            </React.Suspense>
-          }
-        ></Route>
-        <Route path="*" element={<NotFount />} />
-      </Routes>
+      <React.Suspense fallback={<p>Loading...</p>}>
+        <Routes>
+          {/* 约定式路由 */}
+          {routesPaths.length &&
+            routesPaths.map((p, key) => {
+              let path = handlePath(p);
+              let Element = routerFiles[p].default;
+              return <Route key={key} path={path} element={<Element />} />;
+            })}
+          {/* 懒加载路由 */}
+          <Route path="/about" element={<About />} />
+          {/* 404路由 */}
+          <Route path="*" element={<NotFount />} />
+        </Routes>
+      </React.Suspense>
     </BrowserRouter>
   );
 }

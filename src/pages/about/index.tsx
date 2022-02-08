@@ -1,7 +1,5 @@
-import React from 'react';
-
 function About() {
-  return <div>this about page</div>;
+  return <p>react-router lazy loading</p>;
 }
 
 export default About;

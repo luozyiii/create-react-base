@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import api from '@/api';
 import './index.less';
 
-import Child from '@/components/Child';
 import C from './components/c';
 
 function Home() {
@@ -37,13 +36,9 @@ function Home() {
         <p>
           <button onClick={checkPwd}>修改密码(test post方法)</button>
         </p>
-        <Child />
         <div className="page-link">
           <p>
-            <Link to="/about">about page</Link>
-          </p>
-          <p>
-            <Link to="/sync">sync page</Link>
+            <Link to="/about">路由懒加载</Link>
           </p>
         </div>
         <div>

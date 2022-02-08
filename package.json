@@ -22,7 +22,8 @@
   },
   "scripts": {
     "start": "craco start",
-    "build": "craco build",
+    "analyzer": "craco build --config craco.config.analyzer.js",
+    "build": "craco build --config craco.config.prod.js",
     "test": "craco test",
     "eject": "craco eject",
     "format": "npx prettier --write ."

@@ -11,7 +11,27 @@ module.exports = {
     plugins: [
       // 查看打包的进度
       new SimpleProgressWebpackPlugin()
-    ]
+    ],
+    configure: {
+      optimization: {
+        splitChunks: {
+          chunks: 'all',
+          minSize: 20000,
+          minRemainingSize: 0,
+          minChunks: 1,
+          maxAsyncRequests: 30,
+          maxInitialRequests: 30,
+          enforceSizeThreshold: 50000,
+          cacheGroups: {
+            vendor: {
+              test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+              name: 'vendor',
+              chunks: 'all'
+            }
+          }
+        }
+      }
+    }
   },
   plugins: [
     {
